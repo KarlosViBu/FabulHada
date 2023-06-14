@@ -12,9 +12,42 @@ yarn dev
 pnpm dev
 ```
 
+
+# Next.js FabulHada
+Para correr localmente, se necesita la base de datos.
+```
+docker-compose up -d
+```
+
+* El -d, significa __detached__
+
+
+## Configurar las variables de entorno
+Renombrar el archivo __.env.template__ a __.env__
+* MongoDB URL Local:
+```
+MONGO_URL=mongodb://localhost:27017/fabulhadadb
+```
+
+* Reconstruir los módulos de node y levantar Next
+```
+yarn install
+yarn dev
+```
+
+
+## Llenar la base de datos con información de pruebas
+
+Llamara:
+```
+http://localhost:3000/api/seed
+```
+
+
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `page/index.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
