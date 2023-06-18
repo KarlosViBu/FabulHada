@@ -14,6 +14,7 @@ type FormData = {
    password: string,
 };
 
+
 const RegisterPage = () => {
 
    const router = useRouter();
@@ -34,7 +35,7 @@ const RegisterPage = () => {
          setTimeout(() => setShowError(false), 3000);
          return;
       }
-      // TODo: navegar a la pantalla que el usuario estaba
+      // TODo: navegar a la pantalla que el usuario estaba  
       const destination = router.query.p?.toString() || '/';
       router.replace(destination);
    }

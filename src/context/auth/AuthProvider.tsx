@@ -81,7 +81,6 @@ export const AuthProvider:React.FC<Props> = ({ children }) => {
         }
     }
 
-
     return (
         <AuthContext.Provider value={{
             ...state,
