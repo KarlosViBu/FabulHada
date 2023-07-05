@@ -1,10 +1,10 @@
-import { Arya, Baumans, Bai_Jamjuree, Kite_One, Saira_Condensed, Glory } from 'next/font/google'
+import { Arya, Baumans, Bai_Jamjuree, Kite_One, Saira_Condensed, } from 'next/font/google'
 // import { Arya, Baumans, Glory, Kite_One } from 'next/font/google'
 
-export const font6 = Glory({ 
-  subsets: ['latin'],
-  weight: ['300','400','600']
- })
+// export const font6 = Glory({ 
+//   subsets: ['latin'],
+//   weight: ['300','400','600']
+//  })
 
 export const font5 = Kite_One({ 
   subsets: ['latin'],

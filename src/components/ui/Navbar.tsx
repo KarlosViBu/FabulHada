@@ -45,7 +45,7 @@ export const Navbar = () => {
                     className="fadeIn">
                <NextLink href='/category/amor-armonia' passHref legacyBehavior>
                   <Link>
-                     <Button color={asPath === '/category/amor-armonia' ? 'primary' : 'info'}>Amor Armonia</Button>
+                     <Button color={asPath === '/category/amor-armonia' ? 'primary' : 'info'}>Amor Armonía</Button>
                   </Link>
                </NextLink>
                <NextLink href='/category/abundancia-prosperidad' passHref legacyBehavior>
@@ -60,17 +60,17 @@ export const Navbar = () => {
                </NextLink>
                <NextLink href='/category/sabiduria-poder' passHref legacyBehavior>
                   <Link>
-                     <Button color={asPath === '/category/sabiduria-poder' ? 'primary' : 'info'}>Sabiduria Poder</Button>
+                     <Button color={asPath === '/category/sabiduria-poder' ? 'primary' : 'info'}>Sabiduría Poder</Button>
                   </Link>
                </NextLink>
                <NextLink href='/category/naturaleza-zodiaco' passHref legacyBehavior>
                   <Link>
-                     <Button color={asPath === '/category/naturaleza-zodiaco' ? 'primary' : 'info'}>Naturaleza Zodiaco</Button>
+                     <Button color={asPath === '/category/naturaleza-zodiaco' ? 'primary' : 'info'}>Naturaleza Zodíaco</Button>
                   </Link>
                </NextLink>
                <NextLink href='/category/proteccion-talismanes' passHref legacyBehavior>
                   <Link>
-                     <Button color={asPath === '/category/proteccion-talismanes' ? 'primary' : 'info'}>Protección Talisman</Button>
+                     <Button color={asPath === '/category/proteccion-talismanes' ? 'primary' : 'info'}>Protección Talismán</Button>
                   </Link>
                </NextLink>
             </Box>

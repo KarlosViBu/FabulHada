@@ -4,7 +4,7 @@ import { Grid, Card, CardActionArea, CardMedia, Box, Typography, Link, Chip, Bad
 import 'animate.css';
 import { IProduct } from '../../interfaces'
 import { currency } from '@/utils';
-import { font1, font2, font3, font4, font5, font6 } from '../ui';
+import { font1, font2, font3, font4, font5 } from '../ui';
 
 interface Props {
     product: IProduct;
