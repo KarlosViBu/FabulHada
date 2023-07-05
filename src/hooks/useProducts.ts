@@ -9,7 +9,7 @@ export const useProducts = (url: string, config: SWRConfiguration = {} ) => {
     // const { data, error } = useSWR<IProduct[]>(`/api${ url }`, fetcher, config );
     const { data, error } = useSWR<IProduct[]>(`/api${ url }`, config );
     
-    console.log({data});
+    // console.log({data});
     
     return {
         products: data || [],

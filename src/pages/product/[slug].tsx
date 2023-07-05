@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
 import { Box, Button, Chip, Grid, Typography } from '@mui/material';
 import { CartContext } from '@/context';
@@ -8,27 +8,22 @@ import { CartContext } from '@/context';
 import { ShopLayout } from '@/components/layouts';
 import { ProductSlideshow, SizeSelector } from '@/components/products';
 
-// import { initialData } from '@/database/products';
 import { ItemCounter } from '@/components/ui/ItemCounter';
 import { dbProducts } from '@/database';
 import { ICartProduct, IProduct, IKind } from '@/interfaces';
-// import { useProducts } from '@/hooks';
-// const product = initialData.products[0];
+import { currency } from '@/utils';
+import { Product } from '@/models';
 
 interface Props {
   product: IProduct
 }
 
-const ProductPage:NextPage<Props> = ({ product }) => {
+const ProductPage: NextPage<Props> = ({ product }) => {
 
   const router = useRouter();
-  const { addProductToCart } = useContext( CartContext )
-  // const { products: product, isLoading } = useProducts(`/products/${ router.query.slug }`);
+  const { addProductToCart } = useContext(CartContext)
+  
   // console.log({ product });
-
-  // if ( isLoading ) {
-  //   return <h1>Cargando</h1>
-  // }
 
   const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
     _id: product._id,
@@ -41,16 +36,16 @@ const ProductPage:NextPage<Props> = ({ product }) => {
     quantity: 1,
   })
 
-  const selectedSize = ( kind: IKind ) => {
+  const selectedSize = (kind: IKind) => {
     // console.log('Padre:', kind);
-    setTempCartProduct( currentProduct => ({
+    setTempCartProduct(currentProduct => ({
       ...currentProduct,
       kind
     }));
   }
 
-  const onUpdateQuantity = ( quantity: number ) => {
-    setTempCartProduct( currentProduct => ({
+  const onUpdateQuantity = (quantity: number) => {
+    setTempCartProduct(currentProduct => ({
       ...currentProduct,
       quantity
     }));
@@ -58,44 +53,47 @@ const ProductPage:NextPage<Props> = ({ product }) => {
 
   const onAddProduct = () => {
 
-    if ( !tempCartProduct.kind ) { return; }
+    if (!tempCartProduct.kind) { return; }
 
     addProductToCart(tempCartProduct);
     router.push('/cart');
   }
 
   return (
-    <ShopLayout title={ product.personage } pageDescription={ product.description }>
-    
+    <ShopLayout title={product.personage} pageDescription={product.description}>
+
       <Grid container spacing={3}>
 
-        <Grid item xs={12} sm={ 7 }>
-          <ProductSlideshow 
-            images={ product.images }
+        <Grid item xs={12} sm={7}>
+          <ProductSlideshow
+            images={product.images}
           />
         </Grid>
 
-        <Grid item xs={ 12 } sm={ 5 }>
+        <Grid item xs={12} sm={5}>
           <Box display='flex' flexDirection='column'>
 
             {/* titulos */}
-            <Typography variant='h1' component='h1'>{ product.personage }</Typography>
-            {/* <Typography variant='subtitle1' component='h2'>{ `$${product.price}` }</Typography> */}
-            <Typography fontSize={25} fontWeight={600}>{ `$${product.price}` }</Typography>
+            <h2 className='ktitle2'>{product.personage}</h2>
+            <h2 className='ktitle2'>{currency.format(product.price)}</h2>
+            {/* <Typography variant='h1' component='h1'>{product.personage}</Typography>
+            <Typography variant='h1'>
+              {currency.format(product.price)}
+            </Typography> */}
 
             {/* Cantidad */}
-            <Box sx={{ my: 2 }}>
-              <Typography  variant='h2' component='h2'>Cantidad</Typography>
-              <ItemCounter 
-                currentValue={ tempCartProduct.quantity }
-                updatedQuantity={ onUpdateQuantity  }
+            <Box sx={{ my: 6 }}>
+              <Typography variant='h2' component='h2'>Cantidad</Typography>
+              <ItemCounter
+                currentValue={tempCartProduct.quantity}
+                updatedQuantity={onUpdateQuantity}
                 // maxValue={ product.inStock > 10 ? 10: product.inStock }
-                maxValue={ 5 }
+                maxValue={5}
               />
-              <SizeSelector 
-                sizes={ product.kind }
-                selectedSize={ tempCartProduct.kind } 
-                onSelectedSize={ selectedSize }
+              <SizeSelector
+                kinds={product.kind}
+                selectedSize={tempCartProduct.kind}
+                onSelectedSize={selectedSize}
               />
             </Box>
 
@@ -103,11 +101,12 @@ const ProductPage:NextPage<Props> = ({ product }) => {
             {/* Agregar al carrito */}
             {
               (product.inStock > 0)
-               ? (
-                  <Button 
-                    color="secondary" 
+                ? (
+                  <Button
+                    // color="secondary" 
                     className='circular-btn'
-                    onClick={ onAddProduct }
+                    size='large'
+                    onClick={onAddProduct}
                   >
                     {
                       tempCartProduct.kind
@@ -115,17 +114,40 @@ const ProductPage:NextPage<Props> = ({ product }) => {
                         : 'Seleccione una talla'
                     }
                   </Button>
-               )
-               : (
-                 <Chip label="No hay disponibles" color="error" variant='outlined' />
-               )
+                )
+                : (
+                  <Chip label="No hay disponibles" color="error" variant='outlined' />
+                )
             }
 
             {/* Descripción */}
-            <Box sx={{ mt:3 }}>
+            <Box sx={{ mt: 3 }}>
               <Typography variant='subtitle1'>Materiales</Typography>
-              <Typography variant='body1'>{ product.description }</Typography>
+              <Typography variant='body1'>{product.description}</Typography>
             </Box>
+
+            <Box display='flex' gap={3}>
+              <Box display='flex' flexDirection='column'>
+                <Typography variant='subtitle1'>Tamaño</Typography>
+                <Typography variant='body1'>{product.size} cm</Typography>
+              </Box>
+              <Box display='flex' flexDirection='column'>
+                <Typography variant='subtitle1'>Color</Typography>
+                <Typography variant='body1'>{product.color}</Typography>
+              </Box>
+            </Box>
+
+            {
+              product.observations !== ''
+                ? (
+                  <Box sx={{ mt: 3 }}>
+                    <Typography variant='subtitle1'>Observaciones</Typography>
+                    <Typography variant='body1'>{product.observations}</Typography>
+                  </Box>
+                )
+                : (<></>
+                )
+            }
 
           </Box>
         </Grid>
@@ -172,13 +194,13 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 // Obtengo por Build todas los paths contruidos antes de que el usuario los solicite
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
-  
+
   const productSlugs = await dbProducts.getAllProductSlugs();
 
-  
+
   return {
     // desextructura            obj
-    paths: productSlugs.map( ({ slug }) => ({
+    paths: productSlugs.map(({ slug }) => ({
       params: {
         slug
       }
@@ -196,11 +218,11 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 // Para aquellos props (datos) que se renderizan cada determinado tiempo ej. 24h
 // desextructura  del                                   ctx
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  
-  const { slug = '' } = params as { slug: string };
-  const product = await dbProducts.getProductBySlug( slug );
 
-  if ( !product ) {
+  const { slug = '' } = params as { slug: string };
+  const product = await dbProducts.getProductBySlug(slug);
+
+  if (!product) {
     return {
       redirect: {
         destination: '/',
@@ -213,7 +235,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       product
     },
-    revalidate: 60 * 60 * 24
+    revalidate: 60 * 24
   }
 }
 

@@ -20,7 +20,7 @@ export interface IProduct {
     updatedAt: string;
 }
 
-export type ICategory = 'amor-armonia'|'abundancia-prosperidad'|'salud-vitalidad'|'sabiduria-poder'|'naturaleza-zodiaco'|'talismanes';
+export type ICategory = 'amor-armonia'|'abundancia-prosperidad'|'salud-vitalidad'|'sabiduria-poder'|'naturaleza-zodiaco'|'proteccion-talismanes';
 
 export type IKind = 'Simple'|'Compuesto';
  

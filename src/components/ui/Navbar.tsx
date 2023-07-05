@@ -1,17 +1,19 @@
 import { useContext, useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { UiContext } from '@/context';
+import { CartContext, UiContext } from '@/context';
 
 import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Link, Toolbar, Typography } from '@mui/material';
 import SearchIcon from '../iconos/SearchIcon';
 import CartIcon from '../iconos/CartIcon';
 import ClearIcon from '../iconos/ClearIcon';
+import { font3, font5 } from './font';
 
 export const Navbar = () => {
 
    const { asPath, push } = useRouter();
    const { toggleSideMenu } = useContext(UiContext);
+   const { numberOfItems } = useContext( CartContext );
    // const router = useRouter();
 
    // console.log({router});
@@ -29,7 +31,10 @@ export const Navbar = () => {
          <Toolbar>
             <NextLink href='/' passHref legacyBehavior>
                <Link display='flex' alignItems='center'>
-                  <Typography variant='h1' component={'h1'}>Fabul♥Hada</Typography>
+                  {/* <Typography variant='h1' component={'h1'}>Fabul♥Hada</Typography> */}
+                  <Typography className={font3.className} sx={{ color: '#daa520' }}variant='h4'>Fabul</Typography>
+                  <Typography className={font3.className} sx={{ color: '#ff0000' }}variant='h5'>♥</Typography>
+                  <Typography className={font3.className} sx={{ color: 'blue' }}variant='h4'>Hada</Typography>
                </Link>
             </NextLink>
 
@@ -63,9 +68,9 @@ export const Navbar = () => {
                      <Button color={asPath === '/category/naturaleza-zodiaco' ? 'primary' : 'info'}>Naturaleza Zodiaco</Button>
                   </Link>
                </NextLink>
-               <NextLink href='/category/talismanes' passHref legacyBehavior>
+               <NextLink href='/category/proteccion-talismanes' passHref legacyBehavior>
                   <Link>
-                     <Button color={asPath === '/category/talismanes' ? 'primary' : 'info'}>Talismanes</Button>
+                     <Button color={asPath === '/category/proteccion-talismanes' ? 'primary' : 'info'}>Protección Talisman</Button>
                   </Link>
                </NextLink>
             </Box>
@@ -119,7 +124,7 @@ export const Navbar = () => {
             <NextLink href="/cart" passHref legacyBehavior>
                <Link>
                   <IconButton>
-                     <Badge badgeContent={2} color="secondary">
+                     <Badge badgeContent={ numberOfItems > 9 ? '+9': numberOfItems  } color="primary">
                         <CartIcon width={25}/>
                      </Badge>
                   </IconButton>

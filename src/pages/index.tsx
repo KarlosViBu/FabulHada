@@ -2,7 +2,6 @@
 import { ShopLayout } from "@/components/layouts";
 import { ProductList } from "@/components/products";
 import { FullScreenLoading } from "@/components/ui";
-import { initialData } from "@/database/seed-data";
 import { useProducts } from "@/hooks";
 import { Typography } from "@mui/material";
 
@@ -25,7 +24,3 @@ export default function Home() {
     </ShopLayout>
   )
 }
-
-{/* <ProductList
-  products={ initialData.products as any }
-/> */}

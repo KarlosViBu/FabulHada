@@ -1,10 +1,12 @@
 import { FC, useReducer, useEffect } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import { AuthContext, authReducer } from './';
 
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { fabulhadaApi } from '@/api';
 import { IUser } from '@/interfaces';
+import { useRouter } from 'next/router';
 
 export interface AuthState {
     isLoggedIn: boolean;
@@ -23,12 +25,27 @@ type Props = {
 export const AuthProvider:React.FC<Props> = ({ children }) => {
 
     const [state, dispatch] = useReducer( authReducer, AUTH_INITIAL_STATE );
+    const { data, status } = useSession();
+    const router = useRouter();
+
 
     useEffect(() => {
-        checkToken();
-    }, [])
+        
+        if ( status === 'authenticated' ) {
+            // console.log({user: data?.user});
+            dispatch({ type: '[Auth] - Login', payload: data?.user as IUser })
+        }
+    
+    }, [ status, data ])
+
+
+    // useEffect(() => {
+    //     checkToken();
+    // }, [])
 
     const checkToken = async() => {
+
+        if ( !Cookies.get('token') ) return;
 
         try {
             const { data } = await fabulhadaApi.get('/user/validate-token');
@@ -81,6 +98,23 @@ export const AuthProvider:React.FC<Props> = ({ children }) => {
         }
     }
 
+    const logout = () => {
+        Cookies.remove('cart');
+        Cookies.remove('firstName');
+        Cookies.remove('lastName');
+        Cookies.remove('address');
+        Cookies.remove('address2');
+        Cookies.remove('zip');
+        Cookies.remove('city');
+        Cookies.remove('country');
+        Cookies.remove('phone');
+        
+        signOut();
+
+        // Cookies.remove('token');
+        // router.reload();
+    }
+
     return (
         <AuthContext.Provider value={{
             ...state,
@@ -88,6 +122,7 @@ export const AuthProvider:React.FC<Props> = ({ children }) => {
             // Methods
             loginUser,
             registerUser,
+            logout
 
         }}>
             { children }

@@ -1,11 +1,14 @@
 import { useContext, useState } from 'react';
+import { signIn, getSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 import NextLink from 'next/link';
+
 import { useForm } from 'react-hook-form';
 import { Box, Button, Chip, Grid, Link, TextField, Typography } from '@mui/material';
 import { AuthLayout } from '../../components/layouts'
 import { Icon } from '@iconify/react';
 import { validations } from '@/utils';
-import { useRouter } from 'next/router';
 import { AuthContext } from '@/context';
 
 type FormData = {
@@ -36,8 +39,10 @@ const RegisterPage = () => {
          return;
       }
       // TODo: navegar a la pantalla que el usuario estaba  
-      const destination = router.query.p?.toString() || '/';
-      router.replace(destination);
+      // const destination = router.query.p?.toString() || '/';
+      // router.replace(destination);
+
+      await signIn('credentials',{ email, password });
    }
 
    return (
@@ -106,7 +111,7 @@ const RegisterPage = () => {
                   <Grid item xs={12}>
                      <Button
                         type='submit'
-                        color="secondary"
+                        // color="secondary"
                         className='circular-btn'
                         size='large'
                         fullWidth>
@@ -130,5 +135,32 @@ const RegisterPage = () => {
       </AuthLayout>
    )
 }
+
+
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+
+   const session = await getSession({ req });
+   // console.log({session});
+
+   const { p = '/' } = query;
+
+   if (session) {
+      return {
+         redirect: {
+            destination: p.toString(),
+            permanent: false
+         }
+      }
+   }
+
+   return {
+      props: { session: session }
+   }
+}
+
 
 export default RegisterPage

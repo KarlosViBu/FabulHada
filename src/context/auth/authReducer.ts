@@ -6,7 +6,6 @@ type AuthActionType =
    | { type: '[Auth] - Logout' } 
 
 
-
 export const authReducer = ( state: AuthState, action: AuthActionType ): AuthState => {
 
    switch (action.type) {

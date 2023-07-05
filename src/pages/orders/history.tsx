@@ -1,60 +1,110 @@
+import { useContext } from "react";
 import NextLink from 'next/link';
+import { GetServerSideProps, NextPage } from 'next'
+import { getSession } from 'next-auth/react';
 
 import { Typography, Grid, Chip, Link } from '@mui/material';
-import { DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 import { ShopLayout } from '../../components/layouts';
+import { dbOrders } from '../../database';
+import { IOrder } from '../../interfaces';
+import { AuthContext } from "@/context";
+import { currency } from "@/utils";
 
 
 const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'fullname', headerName: 'Nombre Completo', width: 300 },
-
+    { field: 'id', headerName: 'ID', width: 30 },
     {
-        field: 'paid',
-        headerName: 'Pagada',
-        description: 'Muestra información si está pagada la orden o no',
-        width: 200,
-        renderCell: (params: GridRenderCellParams) => {
+        field: 'orderId',
+        headerName: 'Ver orden',
+        width: 100,
+        cellClassName:'hisorder',
+        sortable: false,
+        renderCell: ({ row }: GridRenderCellParams) => {
             return (
-                params.row.paid
-                    ? <Chip color="success" label="Pagada" variant='outlined' />
-                    : <Chip color="error" label="No pagada" variant='outlined' />
+                    <h4 >{ row.orderId.substring(15) }</h4> 
             )
         }
     },
     {
-        field: 'orden',
-        headerName: 'Ver orden',
-        width: 200,
-        sortable: false,
-        renderCell: (params: GridRenderCellParams) => {
+        field: 'paid',
+        headerName: 'Pagada',
+        description: 'Muestra información si está pagada la orden o no',
+        width: 150,
+        renderCell: ({ row }: GridRenderCellParams) => {
             return (
-               <NextLink href={`/orders/${ params.row.id }`} passHref legacyBehavior>
-                    <Link underline='always'>
-                        Ver orden
-                    </Link>
-               </NextLink>
+                    row.paid
+                ? (<Chip 
+                    variant='outlined' 
+                    label="Pagada...." 
+                    color="success"
+                    component="a"
+                    href={ `/orders/${ row.orderId }` }
+                    clickable
+                 />)
+                : (<Chip 
+                    variant='outlined' 
+                    label="Pendiente" 
+                    color="error"
+                    component="a"
+                    href={ `/orders/${ row.orderId }` }
+                    clickable
+                 />)
             )
         }
+    },
+    { 
+        field: 'total',
+        headerName: 'Total', width: 100, align:"right",
+        renderCell: ({ row }: GridRenderCellParams) => {
+            return currency.format(row.total)
+        } 
+    },
+    { field: 'createdAt', headerName: 'Creada en', width:110 },
+    { field: 'fullname', headerName: 'Despachado a', width: 250 },
+    
+    { 
+        field: 'updatedAt', 
+        headerName: 'Pagada en', 
+        width:90,
+        renderCell: ({ row }: GridRenderCellParams) => {
+            return (
+                row.paid
+                ? row.updatedAt.substring(0,10)
+                : ''
+            )
+        } 
     }
 ];
 
+interface Props {
+    orders: IOrder[]
+}
 
-const rows = [
-    { id: 1, paid: true, fullname: 'Esteban Villegas' },
-    { id: 2, paid: false, fullname: 'Melissa Flores' },
-    { id: 3, paid: true, fullname: 'Hernando Vallejo' },
-    { id: 4, paid: false, fullname: 'Emin Reyes' },
-    { id: 5, paid: false, fullname: 'Eduardo Rios' },
-    { id: 6, paid: true, fullname: 'Natalia Herrera' },
-]
+const HistoryPage: NextPage<Props> = ({ orders }) => {
 
+    // console.log( {orders });
+    // const rows = ..  
+    // { id: indice + 1, paid: true, fullname: 'Fernando Herrera', orderId: 1283781237123 }
 
-const HistoryPage = () => {
+    const { user, isLoggedIn, logout } = useContext(AuthContext);
+
+   const kperfil = `Historial de ordenes : ${user?.name}`
+
+    const rows = orders.map( (order, idx) => ({
+        id: idx + 1,
+        paid: order.isPaid,
+        fullname: `${ order.shippingAddress.firstName } ${ order.shippingAddress.lastName }`,
+        orderId: order._id,
+        total: order.total,
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt
+    }))
+
   return (
     <ShopLayout title={'Historial de ordenes'} pageDescription={'Historial de ordenes del cliente'}>
-        <Typography variant='h1' component='h1'>Historial de ordenes</Typography>
+        <Typography mb={1} variant='h2' component='h2'>{ kperfil }</Typography>
 
 
         <Grid container>
@@ -64,10 +114,10 @@ const HistoryPage = () => {
                     columns={ columns }
                     initialState={{
                         pagination: { 
-                          paginationModel: { pageSize: 5 } 
+                          paginationModel: { pageSize: 7 } 
                         },
                       }}
-                      pageSizeOptions={[5, 10, 25]}
+                      pageSizeOptions={[7, 14, 21]}
                     autoHeight
                 />
 
@@ -76,6 +126,32 @@ const HistoryPage = () => {
 
     </ShopLayout>
   )
+}
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    
+    const session: any = await getSession({ req });
+
+    if ( !session ) {
+        return {
+            redirect: {
+                destination: '/auth/login?p=/orders/history',
+                permanent: false,
+            }
+        }
+    }
+
+    const orders = await dbOrders.getOrdersByUser( session.user._id );
+
+
+    return {
+        props: {
+            orders
+        }
+    }
 }
 
 export default HistoryPage

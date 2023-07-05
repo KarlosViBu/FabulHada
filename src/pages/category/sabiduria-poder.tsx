@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import { ShopLayout } from '@/components/layouts';
 
@@ -7,6 +7,7 @@ import { ProductList } from '@/components/products';
 import { useProducts } from '@/hooks';
 
 import { FullScreenLoading } from '@/components/ui';
+import { SalmodiaSP } from '@/components/category';
 
 
 const SabiduriaPoderPage: NextPage = () => {
@@ -17,9 +18,12 @@ const SabiduriaPoderPage: NextPage = () => {
 
    return (
       <ShopLayout title={'Fabul♥Hada - sabiduria & poder'} pageDescription={'Los mejores productos de FabulHada para la Sabiduria y Poder'}>
-         <Typography variant='h1' component='h1'>Sabiduria y Poder</Typography>
-         <Typography variant='h2' sx={{ mb: 1 }}>Salmodia</Typography>
-
+      <Box display='flex' justifyContent='space-between'  align-items= 'end' >
+        <h1 className='ktitle'>
+          Sabiduría y Poder
+        </h1>
+          <SalmodiaSP  />
+      </Box>
          {
             isLoading
                ? <FullScreenLoading />

@@ -1,8 +1,11 @@
 import { createTheme } from '@mui/material/styles';
 import { red,  } from '@mui/material/colors';
 
-
 export const lightTheme = createTheme({
+
+  typography: {
+  },
+
   palette: {
     mode: 'light',
     primary: {
@@ -11,12 +14,12 @@ export const lightTheme = createTheme({
     secondary: {
       main: '#3A64D8'
     },
+    warning: {
+      main: 'rgba(255,255,255,.40)'
+    },
     info: {
       main: '#fff'
     },
-    success: {
-      main: 'rgba(255,255,255,.40)'
-    }
   },
   components: {
     MuiLink: {
@@ -40,6 +43,7 @@ export const lightTheme = createTheme({
     MuiTypography: {
       styleOverrides: {
         h1: {
+          // fontFamily:'Arya',
           fontSize: 30,
           fontWeight: 600
         },
@@ -53,8 +57,7 @@ export const lightTheme = createTheme({
         }
       }
     },
-
-
+    
     MuiButton: {
       defaultProps: {
         variant: 'contained',
@@ -66,7 +69,7 @@ export const lightTheme = createTheme({
         root: {
           textTransform: 'none',
           boxShadow: 'none',
-          borderRadius: 15,
+          borderRadius: 20,
           ":hover": {
             backgroundColor: 'rgba(0,0,0,0.15)',
             transition: 'all 0.3s ease-in-out'

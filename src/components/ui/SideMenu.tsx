@@ -1,6 +1,6 @@
 'use client'
-import { useContext, useState } from "react";
-import { UiContext } from "@/context";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext, UiContext } from "@/context";
 import { useRouter } from "next/router";
 
 import { Box, Divider, Drawer, IconButton, Input, InputAdornment, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from "@mui/material"
@@ -10,16 +10,6 @@ import ClearIcon from "../iconos/ClearIcon";
 import SearchIcon from "../iconos/SearchIcon";
 import UserIcon from "../iconos/UserIcon";
 import OrdersIcon from "../iconos/OrdersIcon";
-
-import LoveIcon from "../iconos/LoveIcon";
-import AbundanceIcon from "../iconos/AbundanceIcon";
-import HealthIcon from "../iconos/HealthIcon";
-import MagicIcon from "../iconos/MagicIcon";
-import ZodiacIcon from "../iconos/ZodiacIcon";
-import HomeIcon from "../iconos/HomeIcon";
-import SunIcon from "../iconos/SunIcon";
-
-
 
 import KeyIcon from "../iconos/KeyIcon";
 import ExitIcon from "../iconos/ExitIcon";
@@ -32,6 +22,10 @@ export const SideMenu = () => {
    const router = useRouter();
 
    const { isMenuOpen, toggleSideMenu } = useContext(UiContext);
+   const { user, isLoggedIn, logout } = useContext(AuthContext);
+
+   const kperfil = `Perfil : ${user?.name}`
+
    const navigateTo = (url: string) => {
       toggleSideMenu();
       router.push(url);
@@ -76,20 +70,28 @@ export const SideMenu = () => {
                   />
                </ListItem>
 
-               <ListItem button>
-                  <ListItemIcon>
-                     <UserIcon width={35} fill="#33496a" />
-                  </ListItemIcon>
-                  <ListItemText primary={'Perfil'} />
-               </ListItem>
+               {
+                  isLoggedIn && (
+                     <>
+                        <ListItem button>
+                           <ListItemIcon>
+                              <UserIcon width={35} fill="#33496a" />
+                           </ListItemIcon>
+                           <ListItemText primary={kperfil} />
+                        </ListItem>
 
-               <ListItem button>
-                  <ListItemIcon>
-                     <OrdersIcon width={20} fill="#33496a" />
-                  </ListItemIcon>
-                  <ListItemText primary={'Mis Ordenes'} />
-               </ListItem>
-
+                        <ListItem 
+                           button
+                           onClick={() => navigateTo('/orders/history') }
+                        >
+                           <ListItemIcon>
+                              <OrdersIcon width={20} fill="#33496a" />
+                           </ListItemIcon>
+                           <ListItemText primary={'Mis Ordenes'} />
+                        </ListItem>
+                     </>
+                  )
+               }
 
                <ListItem
                   button
@@ -125,7 +127,7 @@ export const SideMenu = () => {
                >
                   <ListItemIcon>
                      {/* <Icon icon="line-md:sun-rising-twotone-loop" color="#08ec13" width="35" /> */}
-                     <Icon icon="line-md:sunny-filled-loop-to-moon-filled-loop-transition" color="#08ec13" width="30" />
+                     <Icon icon="line-md:sunny-filled-loop-to-moon-filled-loop-transition" color="#06870c" width="30" />
                      {/* <HealthIcon width={30} fill="#203656" /> */}
                   </ListItemIcon>
                   <ListItemText primary={'Salud y Vitalidad'} />
@@ -139,7 +141,7 @@ export const SideMenu = () => {
                   <ListItemIcon>
                      {/* <MagicIcon width={30} fill="#203656" /> */}
                      {/* <Icon icon="line-md:sun-rising-twotone-loop" color="#0a86f1" width="35" /> */}
-                     <Icon icon="line-md:sunny-filled-loop-to-moon-filled-loop-transition" color="#0a86f1" width="30" />
+                     <Icon icon="line-md:sunny-filled-loop-to-moon-filled-loop-transition" color="#095ca4" width="30" />
                   </ListItemIcon>
                   <ListItemText primary={'Sabiduria y Poder'} />
                </ListItem>
@@ -151,7 +153,7 @@ export const SideMenu = () => {
                >
                   <ListItemIcon>
                      {/* <ZodiacIcon width={40} fill="#203656" /> */}
-                  <Icon icon="line-md:sunny-filled-loop-to-moon-filled-loop-transition" color="#8d0af1" width="30" />
+                     <Icon icon="line-md:sunny-filled-loop-to-moon-filled-loop-transition" color="#6609ac" width="30" />
                   </ListItemIcon>
                   <ListItemText primary={'Naturaleza y Zodíaco'} />
                </ListItem>
@@ -159,62 +161,84 @@ export const SideMenu = () => {
                <ListItem
                   button
                   sx={{ display: { xs: '', sm: '', md: '', lg: 'none' } }}
-                  onClick={() => navigateTo('/category/talismanes')}
+                  onClick={() => navigateTo('/category/proteccion-talismanes')}
                >
                   <ListItemIcon>
                      {/* <HomeIcon width={30} fill="#203656" /> */}
-                     <Icon icon="line-md:sunny-filled-loop-to-moon-filled-loop-transition" color="#ff8c00" width="30" />
+                     <Icon icon="line-md:sunny-filled-loop-to-moon-filled-loop-transition" color="#e68209" width="30" />
                   </ListItemIcon>
                   <ListItemText primary={'Protección Hogar'} />
                </ListItem>
 
-
-               <ListItem button>
-                  <ListItemIcon>
-                     <KeyIcon width={30} fill="#33496a" />
-                  </ListItemIcon>
-                  <ListItemText primary={'Ingresar'} />
-               </ListItem>
-
-               <ListItem button>
-                  <ListItemIcon>
-                     <ExitIcon width={30} fill="#33496a" />
-                  </ListItemIcon>
-                  <ListItemText primary={'Salir'} />
-               </ListItem>
-
+               {
+                  !isLoggedIn
+                     ? (
+                        <ListItem button
+                           onClick={() => navigateTo(`/auth/login?p=${router.asPath}`)}
+                        >
+                           <ListItemIcon>
+                              <KeyIcon width={30} fill="#33496a" />
+                           </ListItemIcon>
+                           <ListItemText primary={'Ingresar'} />
+                        </ListItem>
+                     )
+                     : (
+                        <ListItem button onClick={logout}>
+                           <ListItemIcon>
+                              <ExitIcon width={30} fill="#33496a" />
+                           </ListItemIcon>
+                           <ListItemText primary={'Salir'} />
+                        </ListItem>
+                     )
+               }
 
                {/* Admin */}
-               <Divider />
-               <ListSubheader>Admin Panel</ListSubheader>
+               {
+                  user?.role === 'admin' && (
+                     <>
+                        <Divider />
+                        <ListSubheader>Admin Panel</ListSubheader>
+                        <ListItem
+                           button
+                           onClick={() => navigateTo('/admin/')}
+                        >
+                           <ListItemIcon>
+                              <Icon icon="streamline:interface-dashboard-layout-3-app-application-dashboard-home-layout" color="#019" width="25" />
+                           </ListItemIcon>
+                           <ListItemText primary={'Dashboard'} />
+                        </ListItem>
 
-               <ListItem button>
-                  <ListItemIcon>
-                     {/* <Icon icon="material-symbols:category-outline-rounded" color="#019" width="30" /> */}
-                     {/* <Icon icon="carbon:category-new-each" color="#019" width="30" /> */}
-                     {/* <CategoryOutlined/> */}
-                     <CategorIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={'Productos'} />
-               </ListItem>
-               <ListItem button>
-                  <ListItemIcon>
-                     {/* <Icon icon="fluent-mdl2:activate-orders" color="#154" width="25" /> */}
-                     {/* <ConfirmationNumberOutlined/> */}
-                     <OrdersIcon width={25} fill="#33496a" />
-                  </ListItemIcon>
-                  <ListItemText primary={'Ordenes'} />
-               </ListItem>
+                        <ListItem
+                           button
+                           onClick={() => navigateTo('/admin/products')}
+                        >
+                           <ListItemIcon>
+                              <CategorIcon />
+                           </ListItemIcon>
+                           <ListItemText primary={'Productos'} />
+                        </ListItem>
+                        <ListItem 
+                           button
+                           onClick={() => navigateTo('/admin/orders')}
+                        >
+                           <ListItemIcon>
+                              <OrdersIcon width={25} fill="#33496a" />
+                           </ListItemIcon>
+                           <ListItemText primary={'Ordenes'} />
+                        </ListItem>
 
-               <ListItem button>
-                  <ListItemIcon>
-                     {/* <Icon icon="clarity:administrator-line" color="#154" width="240" /> */}
-                     {/* <Icon icon="system-uicons:users" color="#154" width="25" /> */}
-                     {/* <AdminPanelSettings/> */}
-                     <UsersIcon width={30} />
-                  </ListItemIcon>
-                  <ListItemText primary={'Usuarios'} />
-               </ListItem>
+                        <ListItem 
+                           button
+                           onClick={() => navigateTo('/admin/users')}
+                        >
+                           <ListItemIcon>
+                              <UsersIcon width={30} />
+                           </ListItemIcon>
+                           <ListItemText primary={'Usuarios'} />
+                        </ListItem>
+                     </>
+                  )
+               }
             </List>
          </Box>
       </Drawer>

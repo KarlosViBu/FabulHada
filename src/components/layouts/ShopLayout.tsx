@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Head from 'next/head';
 
-import { Navbar, SideMenu } from '../ui';
+import { Navbar, SideMenu, font3 } from '../ui';
 
 
 interface Props {
@@ -40,7 +40,7 @@ export const ShopLayout:FC<Props> = ({ children, title, pageDescription, imageFu
             margin: '80px auto',
             maxWidth: '1440px',
             padding: '0px 30px'
-        }}>
+        }} className={font3.className}>
             { children }
         </main>
 

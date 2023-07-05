@@ -7,6 +7,6 @@ export interface ICartProduct {
     kind?: IKind;
     slug: string;
     personage: string;
-    category: 'amor-armonia'|'abundancia-prosperidad'|'salud-vitalidad'|'sabiduria-poder'|'naturaleza-zodiaco'|'talismanes';
+    category: 'amor-armonia'|'abundancia-prosperidad'|'salud-vitalidad'|'sabiduria-poder'|'naturaleza-zodiaco'|'proteccion-talismanes';
     quantity: number;
 }

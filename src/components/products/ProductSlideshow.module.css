@@ -1,10 +1,28 @@
-
-
 .each-slide > div {
     display: flex;
     justify-content: center;
-    background-size: contain;
+    align-items: center;
+    background-size:50% 90% !important;
     background-position: center;
     height: 450px;
     
+    
 }
+
+
+/* Mobile */
+@media (max-width: 600px) {
+    .each-slide > div {
+        background-size:contain contain;
+        height: 155px;
+    }
+   
+}
+
+@media (min-width: 601px) and (max-width: 1120px) {
+    .each-slide > div {
+        background-size:contain contain;
+        height: 300px;
+    }
+}
+

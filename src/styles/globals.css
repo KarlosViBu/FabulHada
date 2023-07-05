@@ -76,17 +76,17 @@
 }
 
 .kper {
-  margin-top: -40px;
-  font-family: "Roboto","Helvetica","Arial";
-  font-size: 1.2rem;
+  margin-top: -65px;
+  font-size: 1.25rem;
   font-weight: 600;
 }
 
-.kpre {
-  margin-top: -6px;
-  font-family: "Roboto","Helvetica","Arial";
-  font-size: 1.2rem;
+.kpre h3 {
+  margin-top:-30px;
+  margin-bottom: 0px;
+  font-size: 1.4rem;
   font-weight: 600;
+  text-shadow: none;
 }
 
 
@@ -138,15 +138,23 @@
 
 .bordImg111 {
   /* border: 10px solid  #e9d362; */
-  /* color:#eecc09; */
-  /* color:#0a86f1; */
-  /* color:#8d0af1; */
-  /* color:#08ec13 */
-  /* color:#f89ea3; */
+  /* border: 10px solid  #8f0404; */
+  /* color:#eecc09;
+  color:#d5b70a;
+  color:#0a86f1;
+  color:#095ca4;
+  color:#8d0af1;
+  color:#6609ac;
+  color:#08ec13;
+  color:#06870c;
+  color:#f89ea3; */
   /* color:#f47a80; */
-  /* color: #ff8c00; */
+  /* color: #ff8c00;
+  color: #e68209; */
   /* color: rgba(255,255,255,.5); */
   border: 10px solid  #f1f1f1 inset;
+  color:#daa520;
+  color:#ff0000;
 }
 
 .MuiCard-roots:hover {
@@ -156,27 +164,121 @@
   background: transparent;
 }
 
+.ktitle {
+  font-size: 2em;
+  line-height: 1.2em;
+}
+
+.ktitle2 {
+  font-size: 2em;
+  margin-bottom:-40px;
+}
+
+.titleG { color: green;}
+.titleR { color: #a10404;}
+
+.ksalmodia {
+  padding: 0PX !important;
+  margin: 0PX !important;
+  font-size: 1.15rem !important;
+  line-height: .9rem;
+}
+
+.circular-btn {
+  /* display: flex;
+  justify-content: space-between; */
+  background: #1a50e3 !important;
+  border-radius: 1.5em !important;
+  color: #fff !important;
+  font-size: 1.2em !important;
+  font-weight: 400 !important;
+}
+
+.circular-btn:hover {
+  background-color: #274494 !important;
+}
+
+.circular-btn:disabled {
+  background-color: #5d77be !important;
+
+}
+
+.hisorder {
+  font-size: 1.1em;
+}
+
+.msalmodia {
+  border: 1px solid #000;
+  border-radius: 1.5em;
+  margin-top: 1.5em;
+  height: 2em;
+  line-height: 1.5em;
+  padding: 2px 7px;
+  padding-bottom: 15px;
+  cursor: pointer;
+  transition: .7s;
+}
+
+.msalmodia:hover{
+  border: 1px solid #274494;
+  background: #1a50e3;
+  color: #fff;
+}
+
+
 /* Mobile */
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .kper {
-    margin-top: -30px;
+    margin-top: -45px;
     font-size: .9rem;
   }
-  
-  .kpre {
-    margin-top: -4px;
-    font-size: .9rem;
+    
+  .kpre h3 {
+    margin-top:-25px;
+    font-size: 1.0rem;
+  }
+
+  .ksalmodia {
+    /* padding: 0PX !important; */
+    /* margin: 0PX !important; */
+    font-size: 1rem !important;
+    line-height: 1.2rem;
+  }
+
+  .ktitle {
+    font-size: 1.3em;
+  }
+
+  .ktitle2 {
+    font-size: 1.4em;
+    margin-bottom:-30px;
   }
 }  
 
-@media (min-width: 701px) and (max-width: 1120px) {
+@media (min-width: 601px) and (max-width: 1120px) {
   .kper {
-    margin-top: -35px;
+    margin-top: -50px;
     font-size: 1rem;
   }
+
+  .ksalmodia {
+    /* padding: 0PX !important; */
+    /* margin: 0PX !important; */
+    font-size: 1.1rem !important;
+    line-height: 1.2rem;
+  }
   
-  .kpre {
-    margin-top: -6px;
-    font-size: 1rem;
+  .kpre h3 {
+    margin-top:-25px;
+    font-size: 1.1rem;
+  }
+
+  .ktitle {
+    font-size: 1.5em;
+  }
+
+  .ktitle2 {
+    font-size: 1.6em;
+    margin-bottom:-30px;
   }
 }
