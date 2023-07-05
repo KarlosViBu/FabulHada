@@ -20,8 +20,8 @@ const productSchema = new Schema({
     }],
     slug: { type: String, required: true, unique: true },
     tags: [{ type: String }],
-    feature: { type: String, required: false, default:' ' },
-     escription: { type: String, required: true, default:' ' },
+    feature: { type: String, required: true, default:'.' },
+    description: { type: String, required: true, default:' ' },
     type: {
         type: String,
         enum: {
