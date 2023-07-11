@@ -16,7 +16,7 @@ let kTheme = createTheme(
         main: '#3A64D8'
       },
       warning: {
-        main: 'rgba(255,255,255,.40)'
+        main: 'rgba(255,255,255,.50)'
       },
       info: {
         main: '#fff'
