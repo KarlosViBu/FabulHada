@@ -50,7 +50,7 @@ const LoginPage = () => {
       // // Todo: navegar a la pantalla que el usuario estaba
       // const destination = router.query.p?.toString() || '/';
       // router.replace(destination);
-      await signIn('credentials', { email, password, , redirect: true });
+      await signIn('credentials', { email, password, redirect: true });
 
    }
 
