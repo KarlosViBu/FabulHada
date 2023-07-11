@@ -19,7 +19,7 @@ const columns: GridColDef[] = [
       headerName: 'Foto',
       renderCell: ({ row }: GridRenderCellParams) => {
          return (
-            <a href={`/admin/products/${row.slug}`} target="_blank" rel="noreferrer">
+            <a href={`/admin/products/${row.slug}`} rel="noreferrer">
                <Avatar
                   variant="rounded"
                   sx={{ width: 35, height: 50 }} //, bgcolor:'#154' }}
